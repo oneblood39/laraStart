@@ -96,16 +96,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="fas fa-sticky-note"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-sticky-note"></i>
-                  <p>Inactive Page</p>
-                </a>
+                <router-link to="/users" class="nav-link">
+                  <i class="fas fa-users"></i>
+                  <p>Users</p>
+                </router-link>
               </li>
             </ul>
           </li>
