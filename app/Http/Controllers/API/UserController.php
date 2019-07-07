@@ -16,7 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+    //  $user=User::latest()->paginate(10);
+    //  print_r($user);
+  //   return User::latest()->paginate(10);
+  return User::all();
     }
 
     /**
@@ -27,7 +30,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
         //return ['message' => 'I have your data'];
         //return $request->all();
         return User::create([

@@ -2065,9 +2065,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      users: [],
       form: new Form({
         name: '',
         email: '',
@@ -2079,12 +2084,21 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    loadUsers: function loadUsers() {
+      var self = this;
+      axios.get('api/user').then(function (response) {
+        self.users = response.data;
+      });
+    },
     createUser: function createUser() {
       this.form.post('api/user');
     }
   },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  created: function created() {
+    var self = this;
+    axios.get('api/user').then(function (response) {
+      self.users = response.data;
+    });
   }
 });
 
@@ -38543,7 +38557,40 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "row mt-5" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body table-responsive p-0" }, [
+            _c(
+              "table",
+              { staticClass: "table table-hover" },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _vm._l(_vm.users, function(user) {
+                  return user
+                    ? _c("tr", { key: user.id }, [
+                        _c("td", [_vm._v(_vm._s(user.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.email))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.type))]),
+                        _vm._v(" "),
+                        _vm._m(2, true)
+                      ])
+                    : _vm._e()
+                })
+              ],
+              2
+            )
+          ])
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -38566,7 +38613,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
+              _vm._m(3),
               _vm._v(" "),
               _c("form", { on: { submit: _vm.createUser } }, [
                 _c("div", { staticClass: "modal-body" }, [
@@ -38791,7 +38838,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(4)
               ])
             ])
           ]
@@ -38805,67 +38852,51 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mt-5" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("h3", { staticClass: "card-title" }, [_vm._v("Users Table")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-tools" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success",
-                  attrs: { "data-toggle": "modal", "data-target": "#addNew" }
-                },
-                [
-                  _vm._v("Add New"),
-                  _c("i", { staticClass: "fas fa-user-plus fa-fw" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c("table", { staticClass: "table table-hover" }, [
-              _c("tr", [
-                _c("th", [_vm._v("ID")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Name")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Email")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Type")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Modify")])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", [_vm._v("183")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("John Doe")]),
-                _vm._v(" "),
-                _c("td", [_vm._v("11-7-2014")]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("span", { staticClass: "tag tag-success" }, [
-                    _vm._v("Approved")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("a", { attrs: { href: "#" } }, [
-                    _c("i", { staticClass: "fa fa-edit blue" })
-                  ]),
-                  _vm._v(" "),
-                  _c("a", { attrs: { href: "#" } }, [
-                    _c("i", { staticClass: "fa fa-trash red" })
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Users Table")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-tools" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            attrs: { "data-toggle": "modal", "data-target": "#addNew" }
+          },
+          [
+            _vm._v("Add New"),
+            _c("i", { staticClass: "fas fa-user-plus fa-fw" })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Email")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Modify")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-edit blue" })
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fa fa-trash red" })
       ])
     ])
   },
