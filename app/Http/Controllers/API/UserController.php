@@ -19,7 +19,7 @@ class UserController extends Controller
     //  $user=User::latest()->paginate(10);
     //  print_r($user);
   //   return User::latest()->paginate(10);
-  return User::all();
+     return User::all();
     }
 
     /**
