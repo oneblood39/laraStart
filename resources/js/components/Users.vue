@@ -7,7 +7,7 @@
             <h3 class="card-title">Users Table</h3>
 
             <div class="card-tools">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New<i class="fas fa-user-plus fa-fw"></i></button>
+            <button class="btn btn-success" @click="newModal">Add New<i class="fas fa-user-plus fa-fw"></i></button>
             </div>
           </div>
           <!-- /.card-header -->
@@ -32,10 +32,10 @@
                 <td>{{user.type | upText}}</td>
                 <td>{{user.created_at | myDate}}</td>
                 <td>
-                  <a href="#">
+                  <a href="#" @click="editModal(user)">
                  <i class="fa fa-edit blue"></i>
                   </a>
-                  <a href="#">
+                  <a href="#" @click="deleteUser(user.id)">
                  <i class="fa fa-trash red"></i>
                   </a>
 
@@ -131,6 +131,45 @@
          }
     },
     methods: {
+    editModal(user){
+      this.form.reset();
+      $('#addNew').modal('show');
+      this.form.fill(user);
+
+    },
+    newModal(){
+      this.form.reset();
+      $('#addNew').modal('show');
+
+    },
+    deleteUser(id){
+     this.form.delete('api/user/'+id);
+     Fire.$emit('AfterCreate');
+
+/*
+        Swal({
+           title: 'Are you sure?',
+           text: "You won't be able to revert this!",
+           type: 'warning',
+           showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: 'Yes, delete it!'
+           }).then((result) => {
+
+
+             if (result.value) {
+                 Swal(
+                   'Deleted!',
+                   'Your file has been deleted.',
+                    'success'
+                     )
+                  }
+        }) */
+
+
+
+    },
        loadUsers(){
 
        var self = this;
@@ -141,8 +180,19 @@
        },
          createUser(){
             this.$Progress.start();
-            this.form.post('api/user');
-            this.$Progress.finish();
+            this.form.post('api/user')
+            .then(() => {
+               Fire.$emit('AfterCreate');
+               $('#addNew').modal('hide')
+               toast({
+                  type: 'success',
+                  title: 'User created successfully'
+                 })
+              this.$Progress.finish();
+            })
+            .catch(()=>{
+
+            })
          }
     },
         created() {
@@ -150,6 +200,9 @@
            axios.get('api/user')
            .then(function(response) {
             self.users = response.data
+            });
+            Fire.$on('AfterCreate',() => {
+             this.loadUsers();
             });
         }
 
